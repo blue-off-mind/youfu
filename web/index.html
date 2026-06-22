@@ -1,0 +1,405 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>幽浮</title>
+  <style>
+    :root {
+      --bg: #101315;
+      --panel: #181d20;
+      --panel-strong: #20272b;
+      --text: #eef2ef;
+      --muted: #aab4ad;
+      --line: #2d363a;
+      --accent: #8be28d;
+      --accent-ink: #0d1c10;
+      --danger: #ff8073;
+      --shadow: 0 18px 70px rgba(0, 0, 0, .38);
+      --radius: 8px;
+      font-family: "Segoe UI", "Microsoft YaHei", system-ui, sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      color: var(--text);
+      background:
+        linear-gradient(135deg, rgba(139, 226, 141, .08), transparent 34%),
+        linear-gradient(315deg, rgba(255, 214, 130, .05), transparent 38%),
+        var(--bg);
+      overflow: hidden;
+    }
+
+    .orb-shell {
+      position: fixed;
+      right: 26px;
+      bottom: 26px;
+      width: min(380px, calc(100vw - 32px));
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(24, 29, 32, .96);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px);
+      overflow: hidden;
+      animation: rise .28s ease-out;
+    }
+
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(14px) scale(.98); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px 14px 10px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 22px rgba(139, 226, 141, .7);
+      flex: 0 0 auto;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 15px;
+      line-height: 1.1;
+      letter-spacing: 0;
+      font-weight: 650;
+    }
+
+    .status {
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 12px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 220px;
+    }
+
+    .session-btn {
+      min-width: 44px;
+      height: 36px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      color: var(--text);
+      background: var(--panel-strong);
+      cursor: pointer;
+      transition: border-color .18s ease, transform .18s ease;
+    }
+
+    .session-btn:hover { border-color: rgba(139, 226, 141, .6); }
+    .session-btn:active { transform: scale(.97); }
+
+    main {
+      display: grid;
+      grid-template-columns: 112px 1fr;
+      gap: 14px;
+      padding: 16px 14px 14px;
+    }
+
+    .talk {
+      width: 112px;
+      height: 112px;
+      border: 0;
+      border-radius: 50%;
+      color: var(--accent-ink);
+      background: radial-gradient(circle at 35% 28%, #d8ffd8, var(--accent) 58%, #56b85b);
+      box-shadow: 0 18px 46px rgba(70, 199, 85, .22);
+      cursor: pointer;
+      font-weight: 800;
+      letter-spacing: 0;
+      transition: transform .18s ease, filter .18s ease, box-shadow .18s ease;
+      user-select: none;
+      touch-action: none;
+    }
+
+    .talk:hover { filter: brightness(1.05); }
+    .talk:active, .talk.recording {
+      transform: scale(.94);
+      box-shadow: 0 0 0 9px rgba(139, 226, 141, .12), 0 18px 46px rgba(70, 199, 85, .25);
+    }
+
+    .copy {
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .bubble {
+      min-height: 72px;
+      max-height: 158px;
+      overflow: auto;
+      padding: 10px 11px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #121719;
+      color: var(--text);
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .label {
+      display: block;
+      margin-bottom: 4px;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    form {
+      display: grid;
+      grid-template-columns: 1fr 54px;
+      gap: 8px;
+      padding: 0 14px 14px;
+    }
+
+    input {
+      width: 100%;
+      min-height: 40px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 0 11px;
+      color: var(--text);
+      background: #101416;
+      font: inherit;
+    }
+
+    button, input { outline: none; }
+    button:focus-visible, input:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    .send {
+      border: 0;
+      border-radius: var(--radius);
+      color: var(--accent-ink);
+      background: var(--accent);
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .send:active { transform: scale(.97); }
+
+    footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 10px 14px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    audio {
+      width: 150px;
+      height: 28px;
+      filter: sepia(.15) saturate(.7);
+    }
+
+    .error { color: var(--danger); }
+
+    @media (max-width: 420px) {
+      .orb-shell {
+        right: 16px;
+        bottom: 16px;
+      }
+
+      main {
+        grid-template-columns: 96px 1fr;
+      }
+
+      .talk {
+        width: 96px;
+        height: 96px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: .01ms !important;
+        transition-duration: .01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <section class="orb-shell" aria-label="Voice orb">
+    <header>
+      <div class="brand">
+        <span class="dot" aria-hidden="true"></span>
+        <div>
+          <h1>幽浮</h1>
+          <div class="status" id="status">按住圆球说话，松开发送</div>
+        </div>
+      </div>
+      <button class="session-btn" id="newSession" title="新会话" type="button">新</button>
+    </header>
+
+    <main>
+      <button class="talk" id="talk" type="button">按住<br>说话</button>
+      <div class="copy">
+        <div class="bubble">
+          <span class="label">你说</span>
+          <div id="userText">等待输入。</div>
+        </div>
+        <div class="bubble">
+          <span class="label">回复</span>
+          <div id="assistantText">录音后会自动播放。</div>
+        </div>
+      </div>
+    </main>
+
+    <form id="textForm">
+      <input id="textInput" autocomplete="off" placeholder="也可以直接打字测试">
+      <button class="send" type="submit">发</button>
+    </form>
+
+    <footer>
+      <span>页面聚焦时支持 XButton2 长按</span>
+      <audio id="player" controls></audio>
+    </footer>
+  </section>
+
+  <script>
+    const talk = document.querySelector('#talk');
+    const statusEl = document.querySelector('#status');
+    const userTextEl = document.querySelector('#userText');
+    const assistantTextEl = document.querySelector('#assistantText');
+    const player = document.querySelector('#player');
+    const textForm = document.querySelector('#textForm');
+    const textInput = document.querySelector('#textInput');
+    const newSession = document.querySelector('#newSession');
+
+    let recorder;
+    let chunks = [];
+    let recording = false;
+
+    function setStatus(text, error = false) {
+      statusEl.textContent = text;
+      statusEl.classList.toggle('error', error);
+    }
+
+    async function startRecording() {
+      if (recording) return;
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        chunks = [];
+        const recorderOptions = MediaRecorder.isTypeSupported('audio/webm;codecs=opus')
+          ? { mimeType: 'audio/webm;codecs=opus' }
+          : {};
+        recorder = new MediaRecorder(stream, recorderOptions);
+        recorder.ondataavailable = event => {
+          if (event.data.size) chunks.push(event.data);
+        };
+        recorder.onstop = () => {
+          stream.getTracks().forEach(track => track.stop());
+          sendAudio(new Blob(chunks, { type: recorder.mimeType || 'audio/webm' }));
+        };
+        recorder.start();
+        recording = true;
+        talk.classList.add('recording');
+        setStatus('正在录音，松开发送');
+      } catch (error) {
+        setStatus('无法访问麦克风：' + error.message, true);
+      }
+    }
+
+    function stopRecording() {
+      if (!recording || !recorder) return;
+      recording = false;
+      talk.classList.remove('recording');
+      setStatus('处理中');
+      recorder.stop();
+    }
+
+    async function sendAudio(blob) {
+      const data = new FormData();
+      data.append('file', blob, 'recording.webm');
+      await sendRequest('/api/turn/audio', { method: 'POST', body: data });
+    }
+
+    async function sendText(text) {
+      const data = new FormData();
+      data.append('text', text);
+      await sendRequest('/api/turn/text', { method: 'POST', body: data });
+    }
+
+    async function sendRequest(url, options) {
+      try {
+        setStatus('调用模型中');
+        const response = await fetch(url, options);
+        const payload = await response.json();
+        if (!response.ok) throw new Error(payload.detail || '请求失败');
+        renderTurn(payload);
+      } catch (error) {
+        setStatus(error.message, true);
+      }
+    }
+
+    function renderTurn(payload) {
+      userTextEl.textContent = payload.user_text || '新会话已准备好。';
+      assistantTextEl.textContent = payload.assistant_text || '上下文已清空。';
+      if (payload.audio_path) {
+        player.src = '/api/audio?path=' + encodeURIComponent(payload.audio_path);
+        player.play().catch(() => {});
+      }
+      setStatus('就绪');
+    }
+
+    talk.addEventListener('pointerdown', event => {
+      event.preventDefault();
+      startRecording();
+    });
+    window.addEventListener('pointerup', stopRecording);
+
+    window.addEventListener('mousedown', event => {
+      if (event.button === 4) {
+        event.preventDefault();
+        startRecording();
+      }
+    }, true);
+    window.addEventListener('mouseup', event => {
+      if (event.button === 4) {
+        event.preventDefault();
+        stopRecording();
+      }
+    }, true);
+    window.addEventListener('auxclick', event => {
+      if (event.button === 3 || event.button === 4) event.preventDefault();
+    }, true);
+
+    textForm.addEventListener('submit', event => {
+      event.preventDefault();
+      const text = textInput.value.trim();
+      if (!text) return;
+      textInput.value = '';
+      sendText(text);
+    });
+
+    newSession.addEventListener('click', async () => {
+      await sendRequest('/api/session/new', { method: 'POST' });
+    });
+  </script>
+</body>
+</html>

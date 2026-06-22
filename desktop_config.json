@@ -1,0 +1,27 @@
+{
+  "button": "x2",
+  "hotkey": {
+    "type": "mouse",
+    "value": "x2",
+    "label": "侧键二"
+  },
+  "orb_name": "幽浮",
+  "show_status_text": true,
+  "status_visibility": "always",
+  "status_parts": {
+    "orb_name": true,
+    "model": true,
+    "action_hint": true
+  },
+  "diagnostics_enabled": false,
+  "ignore_short_recordings_ms": 350,
+  "startup_enabled": false,
+  "tts_output_format": "pcm_24000",
+  "bubble_enabled": true,
+  "record_start_delay_ms": 120,
+  "skin": "paper-badge-prototype",
+  "orb_size": 220,
+  "idle_transparency_enabled": false,
+  "idle_opacity": 0.6,
+  "idle_edge_dock_enabled": false
+}

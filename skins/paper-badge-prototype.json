@@ -1,0 +1,33 @@
+{
+  "id": "paper-badge-prototype",
+  "name": "原型纸片徽章",
+  "description": "按用户提供的三张原型图制作的纸片徽章悬浮球皮肤。悬浮球本体使用透明 PNG 状态图，对话框沿用默认纸片样式。",
+  "image_states": {
+    "idle": "assets/skins/paper-badge-prototype/idle.png",
+    "recording": "assets/skins/paper-badge-prototype/recording.png",
+    "connecting": "assets/skins/paper-badge-prototype/connecting.png",
+    "speaking": "assets/skins/paper-badge-prototype/speaking.png",
+    "error": "assets/skins/paper-badge-prototype/error.png"
+  },
+  "image_offset": {
+    "x": 0,
+    "y": -4
+  },
+  "image_shadow": false,
+  "image_background": {
+    "enabled": false,
+    "padding": 0
+  },
+  "colors": {
+    "status_fill": "#fff0b8",
+    "status_shadow": "#7b5651",
+    "bubble": "#fffaf0",
+    "bubble_back": "#fff1d2",
+    "bubble_shadow": "#d8c6a4",
+    "bubble_toggle": "#fff0b8",
+    "user_text": "#7b6a60",
+    "reply_text": "#3b2d2b",
+    "scroll_track": "#f0d7c7",
+    "scroll_knob": "#f38c9a"
+  }
+}

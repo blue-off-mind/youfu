@@ -1,0 +1,8 @@
+{
+  "active_session_path": "sessions/current.json",
+  "archive_dir": "sessions/archive",
+  "max_recent_messages": 12,
+  "summarize_after_messages": 16,
+  "summary_max_chars": 1600,
+  "idle_new_session_minutes": 30
+}

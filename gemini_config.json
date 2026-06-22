@@ -1,0 +1,25 @@
+{
+  "provider": "gateway",
+  "base_url": "https://generativelanguage.googleapis.com/v1beta",
+  "api_key": "",
+  "api_key_env": "GEMINI_API_KEY",
+  "model": "gemini-3.1-flash-lite",
+  "gateway_format": "gemini",
+  "gateway_base_url": "https://generativelanguage.googleapis.com/v1beta",
+  "gateway_api_key": "",
+  "gateway_api_key_env": "AI_GATEWAY_API_KEY",
+  "gateway_model": "gemini-3.1-flash-lite",
+  "gateway_auth_header": "auto",
+  "anthropic_version": "2023-06-01",
+  "transcription_model": "gemini-2.0-flash-lite",
+  "fallback_models": [
+    "gemini-3.5-flash",
+    "gemini-2.0-flash",
+    "gemini-2.0-flash-lite"
+  ],
+  "temperature": 0.7,
+  "max_output_tokens": 900,
+  "persona_file": "prompts/persona.md",
+  "brain_mode": "gemini_audio_direct",
+  "transcription_prompt": "请把这段音频准确转写成简体中文纯文本。如果里面有英文、数字或专有名词，请保留原样。只输出转写文本，不要解释，不要加标题。"
+}
