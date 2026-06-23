@@ -2,303 +2,282 @@
 
 <div align="center">
 
-# 幽浮 / Youfu
+# 幽浮
 
-**Windows 桌面悬浮语音助手。按住说话，松开发送，听它回你。**  
-**A Windows floating voice assistant with hold-to-talk, multimodal input, and TTS playback.**
+**Windows 桌面悬浮语音助手。按住说话，松开发送，听它回你。**
 
 <p>
-  <a href="#screenshots">Screenshots / 截图</a> ·
-  <a href="#features">Features / 功能</a> ·
-  <a href="#quick-start">Quick Start / 快速开始</a> ·
-  <a href="#configuration">Configuration / 配置</a> ·
-  <a href="#build">Build / 构建</a> ·
-  <a href="#diagnostics">Diagnostics / 诊断</a>
+  中文 · <a href="./README_en.md">English</a>
 </p>
 
 <p>
   <a href="https://www.microsoft.com/windows">
-    <img alt="Platform: Windows" src="https://img.shields.io/badge/platform-Windows-0078D4?style=flat-square&logo=windows&logoColor=white">
+    <img alt="平台：Windows" src="https://img.shields.io/badge/%E5%B9%B3%E5%8F%B0-Windows-0078D4?style=flat-square&logo=windows&logoColor=white">
   </a>
   <a href="https://www.python.org/">
-    <img alt="Python" src="https://img.shields.io/badge/python-3.14+-3776AB?style=flat-square&logo=python&logoColor=white">
+    <img alt="Python 版本" src="https://img.shields.io/badge/Python-3.14+-3776AB?style=flat-square&logo=python&logoColor=white">
   </a>
   <a href="https://ai.google.dev/gemini-api/docs">
-    <img alt="Gemini multimodal" src="https://img.shields.io/badge/Gemini-multimodal-8E75B2?style=flat-square">
+    <img alt="Gemini 多模态" src="https://img.shields.io/badge/Gemini-%E5%A4%9A%E6%A8%A1%E6%80%81-8E75B2?style=flat-square">
   </a>
   <a href="https://elevenlabs.io/docs">
-    <img alt="ElevenLabs TTS" src="https://img.shields.io/badge/ElevenLabs-TTS-111111?style=flat-square">
-  </a>
-  <a href="./build_exe.ps1">
-    <img alt="Build: PyInstaller" src="https://img.shields.io/badge/build-PyInstaller-5B5B5B?style=flat-square">
+    <img alt="ElevenLabs 语音合成" src="https://img.shields.io/badge/ElevenLabs-%E8%AF%AD%E9%9F%B3%E5%90%88%E6%88%90-111111?style=flat-square">
   </a>
   <a href="./LICENSE">
-    <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-green?style=flat-square">
+    <img alt="许可证：MIT" src="https://img.shields.io/badge/%E8%AE%B8%E5%8F%AF%E8%AF%81-MIT-green?style=flat-square">
   </a>
+</p>
+
+<p>
+  <a href="#截图">截图</a> ·
+  <a href="#功能">功能</a> ·
+  <a href="#快速开始">快速开始</a> ·
+  <a href="#配置">配置</a> ·
+  <a href="#构建">构建</a> ·
+  <a href="#诊断">诊断</a>
 </p>
 
 </div>
 
 > [!NOTE]
-> 幽浮是本地 Windows 桌面应用，不是网页应用。[`web/`](./web) 只是保留的本地调试入口。  
-> Youfu is a local Windows desktop app. The [`web/`](./web) folder is kept only as a local debug surface.
+> 幽浮是本地 Windows 桌面应用，不是网页应用。[`web/`](./web) 只是保留的本地调试入口。
 
-<a id="screenshots"></a>
+<a id="截图"></a>
 
-## Screenshots / 截图
+## 截图
 
 <p align="center">
-  <img src="./docs/images/youfu-chat.png" alt="Youfu chat bubble and floating orb" width="760">
+  <img src="./docs/images/youfu-chat.png" alt="幽浮对话气泡和悬浮球" width="760">
 </p>
 
 <p align="center">
-  <img src="./docs/images/youfu-hint.png" alt="Youfu operation hint bubble" width="520">
+  <img src="./docs/images/youfu-hint.png" alt="幽浮操作提示气泡" width="520">
 </p>
 
-<a id="features"></a>
+<a id="功能"></a>
 
-## Features / 功能
+## 功能
 
-| Area / 模块 | What it does / 能做什么 |
+| 模块 | 说明 |
 | --- | --- |
-| Floating orb / 悬浮球 | Always-on-top desktop orb, drag to move, right-click menu, startup launch, opacity, edge docking, skin system. |
-| Voice input / 语音输入 | Hold a shortcut to record microphone audio, release to send, cancel mid-recording, or capture desktop/system audio separately. |
-| Multimodal input / 多模态输入 | Gemini-style gateway can receive audio and screenshots directly; screenshot can be attached while recording. |
-| AI gateway / 模型网关 | Supports Gemini, OpenAI-compatible, and Anthropic-compatible gateway formats through settings. |
-| TTS playback / 语音输出 | Uses [ElevenLabs](https://elevenlabs.io/docs) TTS and plays the reply on desktop. |
-| Conversation UI / 对话界面 | Comic-style reply bubble with streaming text, expandable history, scrollable user text and assistant text. |
-| Persona / 人格约束 | Uses [`prompts/persona.md`](./prompts/persona.md) for short, spoken, conversational replies. |
-| Session memory / 会话记忆 | Keeps session context and can summarize long context instead of letting it grow forever. |
-| Diagnostics / 诊断 | Optional JSONL turn logs for checking recordings, transcripts, model output, and TTS playback. |
+| 悬浮球 | 常驻桌面，支持拖拽、右键菜单、开机启动、透明度、边缘吸附和皮肤系统。 |
+| 语音输入 | 按住快捷键录麦克风，松开发送；也可以取消当前录音。 |
+| 桌面音频 | 可单独录制系统声音，适合让模型理解视频、会议或播放器内容。 |
+| 多模态输入 | Gemini 格式网关可以直接接收音频和截图；录音时也能附加桌面截图。 |
+| 模型网关 | 支持 Gemini、OpenAI 兼容格式和 Anthropic 兼容格式。 |
+| 语音输出 | 使用 ElevenLabs 生成回复语音，并在桌面播放。 |
+| 对话气泡 | 漫画式对话框，支持流式文本、展开、滚动和用户转写展示。 |
+| 人格约束 | 通过 [`prompts/persona.md`](./prompts/persona.md) 控制说话风格。 |
+| 会话记忆 | 保留近期上下文，长上下文会自动摘要，避免无限增长。 |
+| 诊断日志 | 可记录每轮音频、转写、模型回复和语音输出，方便排查误触和幻觉。 |
 
-<p align="right"><a href="#top">Back to top / 回到顶部</a></p>
+<p align="right"><a href="#top">回到顶部</a></p>
 
-<a id="how-it-works"></a>
+<a id="工作流"></a>
 
-## How It Works / 工作流
+## 工作流
 
 ```text
-Microphone / desktop audio / screenshot
--> Gemini or compatible gateway
--> persona + session context
--> structured user_text + assistant_text
--> ElevenLabs TTS
--> floating orb playback + streaming bubble
+麦克风 / 桌面音频 / 截图
+-> 模型网关理解输入
+-> 人格约束 + 会话上下文
+-> 结构化返回 user_text 和 assistant_text
+-> ElevenLabs 生成语音
+-> 悬浮球播放语音并显示流式文本
 ```
 
-For Gemini-format turns, audio and images are sent as multimodal input. The model is asked to return structured text:
+使用 Gemini 格式时，音频和图片会直接发给模型。模型会返回：
 
 ```json
 {
-  "user_text": "what the user said, or [no speech]",
-  "assistant_text": "the assistant reply"
+  "user_text": "用户说了什么，或 [no speech]",
+  "assistant_text": "助手回复"
 }
 ```
 
-中文说明：Gemini 格式会把音频和截图直接交给模型，不是先在本地固定转文字再发给 DeepSeek。`user_text` 是模型根据音频返回的“用户说了什么”，用于展示、诊断和会话记忆。
+`user_text` 是模型根据音频理解出来的用户内容，用于展示、诊断和写入会话记忆。它不是固定的本地转写结果，所以如果短录音里只有噪声，可以通过诊断日志定位是录音问题还是模型幻觉。
 
-<p align="right"><a href="#top">Back to top / 回到顶部</a></p>
+<p align="right"><a href="#top">回到顶部</a></p>
 
-<a id="quick-start"></a>
+<a id="快速开始"></a>
 
-## Quick Start / 快速开始
+## 快速开始
 
-Install dependencies / 安装依赖：
+安装依赖：
 
 ```powershell
 python -m pip install -r requirements.txt
 ```
 
-Start the desktop orb / 启动桌面悬浮球：
+启动桌面悬浮球：
 
 ```powershell
 .\run_desktop.ps1
 ```
 
-Or run the Python entry directly / 或直接运行入口文件：
+也可以直接运行入口文件：
 
 ```powershell
 python .\desktop_orb.py
 ```
 
-The packaged executable is built to:
+首次启动后，在悬浮球右键菜单里打开设置，填入模型网关和 ElevenLabs 配置。
 
-```text
-release\幽浮\幽浮.exe
-```
+<a id="快捷键"></a>
 
-<a id="shortcuts"></a>
+## 快捷键
 
-## Shortcuts / 快捷键
-
-| Action / 操作 | Default / 默认 |
+| 操作 | 默认按键 |
 | --- | --- |
-| Microphone hold-to-talk / 麦克风长按说话 | Mouse side button 2 / 鼠标侧键二 |
-| Desktop audio input / 桌面音频输入 | Ctrl+3 |
-| Attach screenshot while recording / 录音中附加截图 | Alt |
-| Cancel current recording / 取消当前录音 | Middle mouse button / 鼠标中键 |
-
-All keyboard and mouse triggers can be changed in **Settings -> Shortcuts**. You can record a single key/button or a modifier combination.
+| 麦克风长按说话 | 鼠标侧键二 |
+| 桌面音频输入 | Ctrl+3 |
+| 录音中附加截图 | Alt |
+| 取消当前录音 | 鼠标中键 |
 
 所有键鼠触发项都在 **设置 -> 快捷键** 里单独配置，可以录制单键，也可以录制组合键。
 
-<p align="right"><a href="#top">Back to top / 回到顶部</a></p>
+<p align="right"><a href="#top">回到顶部</a></p>
 
-<a id="configuration"></a>
+<a id="配置"></a>
 
-## Configuration / 配置
+## 配置
 
-Most options are available from the orb right-click menu: **Settings / 设置**. The same state is stored in JSON files.
+大多数配置都可以在悬浮球右键菜单的 **设置** 里修改；同样的内容会保存到这些文件里。
 
-大多数配置都能在悬浮球右键菜单的 **设置** 里改；配置也会落在这些 JSON 文件里。
-
-| File / 文件 | Purpose / 用途 |
+| 文件 | 用途 |
 | --- | --- |
-| [`gemini_config.json`](./gemini_config.json) | AI model, gateway base URL, gateway API key, provider format. |
-| [`tts_config.json`](./tts_config.json) | ElevenLabs API key, voice ID, TTS model, output format. |
-| [`.env.example`](./.env.example) | Optional environment variable names for local secrets. |
-| [`desktop_config.json`](./desktop_config.json) | Orb name, skin, size, opacity, edge docking, hint bubble, shortcuts. |
-| [`session_config.json`](./session_config.json) | Session memory, summarization, context length. |
-| [`prompts/persona.md`](./prompts/persona.md) | Spoken persona and reply style constraints. |
-| [`skins/`](./skins) | Skin metadata. |
-| [`assets/skins/`](./assets/skins) | Skin image assets for idle, recording, connecting, speaking, error. |
+| [`gemini_config.json`](./gemini_config.json) | 模型、网关地址、网关密钥、格式类型。 |
+| [`tts_config.json`](./tts_config.json) | ElevenLabs 密钥、声音编号、语音模型、输出格式。 |
+| [`.env.example`](./.env.example) | 本地环境变量示例。 |
+| [`desktop_config.json`](./desktop_config.json) | 悬浮球名称、皮肤、大小、透明度、吸附、提示气泡、快捷键。 |
+| [`session_config.json`](./session_config.json) | 会话记忆、摘要阈值、上下文长度。 |
+| [`prompts/persona.md`](./prompts/persona.md) | 语音人格和回复风格。 |
+| [`skins/`](./skins) | 皮肤元数据。 |
+| [`assets/skins/`](./assets/skins) | 皮肤状态图。 |
 
 > [!IMPORTANT]
-> Do not commit real API keys to a public repository. Test keys are convenient locally, but GitHub is very good at making secrets permanent.  
-> 不建议把真实 API Key 提交到公开仓库。测试 Key 本地用很方便，但公开仓库会让它很难收回来。
+> 不要把真实 API Key 提交到公开仓库。建议使用环境变量或设置窗口保存本地配置。
 
-<a id="gateway"></a>
+<a id="网关格式"></a>
 
-## Gateway Modes / 网关格式
+## 网关格式
 
-| Mode / 格式 | Best for / 适合 | Notes / 说明 |
+| 格式 | 适合场景 | 说明 |
 | --- | --- | --- |
-| Gemini | Native audio + image input / 原生音频和图片输入 | Recommended for this project. |
-| OpenAI-compatible | Text, image, and provider-dependent audio / 文本、图片、取决于网关的音频 | Works with compatible gateway base URLs. |
-| Anthropic-compatible | Text-oriented gateway use / 偏文本的网关调用 | Desktop voice flow treats it as a text-oriented format. |
+| Gemini | 原生音频和截图输入 | 当前推荐格式。 |
+| OpenAI 兼容 | 文本、图片，以及取决于网关支持情况的音频 | 适合已有统一网关的场景。 |
+| Anthropic 兼容 | 偏文本的模型调用 | 当前桌面语音流程里按偏文本格式使用。 |
 
-External docs:
+相关文档：
 
-- [Google Gemini API documentation](https://ai.google.dev/gemini-api/docs)
-- [ElevenLabs API documentation](https://elevenlabs.io/docs)
-- [PyInstaller documentation](https://pyinstaller.org/)
-- [sounddevice documentation](https://python-sounddevice.readthedocs.io/)
-- [soundcard project](https://github.com/bastibe/python-soundcard)
-- [pynput documentation](https://pynput.readthedocs.io/)
+- [Google Gemini API 文档](https://ai.google.dev/gemini-api/docs)
+- [ElevenLabs API 文档](https://elevenlabs.io/docs)
+- [PyInstaller 文档](https://pyinstaller.org/)
+- [sounddevice 文档](https://python-sounddevice.readthedocs.io/)
+- [soundcard 项目](https://github.com/bastibe/python-soundcard)
+- [pynput 文档](https://pynput.readthedocs.io/)
 
-<p align="right"><a href="#top">Back to top / 回到顶部</a></p>
+<p align="right"><a href="#top">回到顶部</a></p>
 
-<a id="cli"></a>
+<a id="命令行"></a>
 
-## CLI Usage / 命令行用法
+## 命令行
 
-Text turn / 文字对话：
+文字对话：
 
 ```powershell
 python .\voice_turn.py --text "你好，帮我总结一下今天的计划"
 ```
 
-Audio turn / 音频对话：
+音频对话：
 
 ```powershell
 python .\voice_turn.py --audio .\input.wav
 ```
 
-Audio plus screenshot / 音频加截图：
+音频加截图：
 
 ```powershell
 python .\voice_turn.py --audio .\input.wav --image .\screenshot.png
 ```
 
-Desktop audio / 桌面音频：
+桌面音频：
 
 ```powershell
 python .\voice_turn.py --audio .\desktop.wav --audio-source desktop
 ```
 
-New session / 新会话：
+新会话：
 
 ```powershell
 python .\voice_turn.py --new-session
 ```
 
-TTS only / 只生成语音：
+只生成语音：
 
 ```powershell
-python .\tts.py "你好，这是一次 TTS 测试。" --out outputs\test.mp3
+python .\tts.py "你好，这是一次语音合成测试。" --out outputs\test.mp3
 ```
 
-<a id="build"></a>
+<a id="构建"></a>
 
-## Build / 构建
+## 构建
 
-Build the Windows executable / 构建 Windows 可执行文件：
+构建 Windows 可执行文件：
 
 ```powershell
 .\build_exe.ps1
 ```
 
-Build output / 构建产物：
+构建产物会生成在本地 `release\幽浮\幽浮.exe`。`release/` 是生成目录，不会提交到仓库。
 
-```text
-release\幽浮\幽浮.exe
-```
+<p align="right"><a href="#top">回到顶部</a></p>
 
-The build script copies required config files, prompt files, skins, assets, and runtime files into [`release/幽浮/`](./release/幽浮).
+<a id="诊断"></a>
 
-构建脚本会把运行所需的配置、prompt、皮肤、资源和运行时文件复制到 [`release/幽浮/`](./release/幽浮)。
+## 诊断
 
-<p align="right"><a href="#top">Back to top / 回到顶部</a></p>
-
-<a id="diagnostics"></a>
-
-## Diagnostics / 诊断
-
-When diagnostic logging is enabled, each turn is written to:
+启用诊断日志后，每轮对话会写入：
 
 ```text
 logs/voice-turns.jsonl
 ```
 
-Inspect recent turns / 查看最近记录：
+查看最近记录：
 
 ```powershell
 python .\inspect_diagnostics.py --last 12
 ```
 
-Use this when you need to check:
+适合排查这些问题：
 
-- Whether a short accidental recording was only noise.
-- Whether desktop audio captured the expected source.
-- Whether the model hallucinated speech from silence.
-- Whether `user_text` matches the saved WAV.
-- Whether TTS returned a complete audio file.
+- 短按误触是否只录到了噪声。
+- 桌面音频是否来自预期来源。
+- 模型是否把静音或噪声幻觉成文字。
+- `user_text` 是否和保存的音频一致。
+- 语音输出是否完整返回。
 
-这个日志主要用来定位：误触噪声、桌面音频来源、模型把静音听成文字、`user_text` 和 wav 不一致、TTS 音频不完整等问题。
+<a id="项目结构"></a>
 
-<a id="project-structure"></a>
+## 项目结构
 
-## Project Structure / 项目结构
-
-| Path / 路径 | Role / 作用 |
+| 路径 | 作用 |
 | --- | --- |
-| [`desktop_orb.py`](./desktop_orb.py) | Main Windows floating orb UI, context menu, settings, state transitions. |
-| [`voice_turn.py`](./voice_turn.py) | One complete user turn: input, model call, session, TTS. |
-| [`gemini_brain.py`](./gemini_brain.py) | Gemini and gateway model request logic. |
-| [`gemini_audio.py`](./gemini_audio.py) | Audio/image payload helpers. |
-| [`tts.py`](./tts.py) | ElevenLabs TTS request and audio output generation. |
-| [`hotkey_listener.py`](./hotkey_listener.py) | Keyboard and mouse trigger capture/listening. |
-| [`inspect_diagnostics.py`](./inspect_diagnostics.py) | Diagnostic log reader. |
-| [`build_exe.ps1`](./build_exe.ps1) | PyInstaller packaging script. |
-| [`docs/images/`](./docs/images) | README screenshots. |
+| [`desktop_orb.py`](./desktop_orb.py) | 桌面悬浮球主界面、右键菜单、设置窗口和状态切换。 |
+| [`voice_turn.py`](./voice_turn.py) | 完整的一轮语音对话流程。 |
+| [`gemini_brain.py`](./gemini_brain.py) | 模型网关请求逻辑。 |
+| [`gemini_audio.py`](./gemini_audio.py) | 音频和图片载荷处理。 |
+| [`tts.py`](./tts.py) | ElevenLabs 语音合成。 |
+| [`hotkey_listener.py`](./hotkey_listener.py) | 键盘和鼠标快捷键监听。 |
+| [`inspect_diagnostics.py`](./inspect_diagnostics.py) | 诊断日志查看工具。 |
+| [`build_exe.ps1`](./build_exe.ps1) | 打包脚本。 |
+| [`docs/images/`](./docs/images) | README 截图。 |
 
-<a id="web-debug"></a>
+<a id="本地调试"></a>
 
-## Web Debug UI / Web 调试入口
+## 本地调试入口
 
-The desktop orb is the main UI. A legacy local web debug entry is still available:
-
-桌面悬浮球才是主要界面；本地 Web 调试入口仍然保留：
+桌面悬浮球是主界面。本地网页调试入口仍然保留：
 
 ```powershell
 .\run_web.ps1
@@ -308,13 +287,12 @@ The desktop orb is the main UI. A legacy local web debug entry is still availabl
 http://127.0.0.1:8765
 ```
 
-<p align="right"><a href="#top">Back to top / 回到顶部</a></p>
+<p align="right"><a href="#top">回到顶部</a></p>
 
 ---
 
 <div align="center">
 
-Built for quick voice turns on Windows desktop.  
 为 Windows 桌面上的即时语音交流而做。
 
 </div>
