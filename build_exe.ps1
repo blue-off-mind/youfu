@@ -59,6 +59,17 @@ foreach ($Name in @("prompts", "skins", "assets")) {
     }
 }
 
+$PrivateLocalReleasePaths = @(
+    "assets\skins\user-face",
+    "skins\user-face.json"
+)
+foreach ($RelativePath in $PrivateLocalReleasePaths) {
+    $PrivatePath = Join-Path $AppDir $RelativePath
+    if (Test-Path -LiteralPath $PrivatePath) {
+        Remove-Item -LiteralPath $PrivatePath -Recurse -Force
+    }
+}
+
 foreach ($Name in @("outputs", "sessions", "tmp")) {
     New-Item -ItemType Directory -Path (Join-Path $AppDir $Name) -Force | Out-Null
 }
