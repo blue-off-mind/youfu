@@ -1726,8 +1726,6 @@ class DesktopOrb:
     def provider_option(self, ai_config: dict) -> str:
         if ai_config.get("provider", "gemini") == "gateway":
             fmt = ai_config.get("gateway_format", "gemini")
-            if fmt == "anthropic":
-                return "Gateway · Anthropic 格式"
             if fmt == "openai":
                 return "Gateway · OpenAI 格式"
             return "Gateway · Gemini 格式"
@@ -1769,7 +1767,6 @@ class DesktopOrb:
         gateway_key_var = tk.StringVar(value=ai_config.get("gateway_api_key") or ai_config.get("api_key", ""))
         gateway_model_var = tk.StringVar(value=ai_config.get("gateway_model") or ai_config.get("model", ""))
         gateway_auth_var = tk.StringVar(value=ai_config.get("gateway_auth_header", "auto"))
-        anthropic_version_var = tk.StringVar(value=ai_config.get("anthropic_version", "2023-06-01"))
 
         eleven_key_var = tk.StringVar(value=tts_config.get("api_key", ""))
         voice_id_var = tk.StringVar(value=tts_config.get("voice_id", ""))
@@ -1991,7 +1988,7 @@ class DesktopOrb:
         ttk.Combobox(
             ai_frame,
             textvariable=provider_var,
-            values=["Gateway · Gemini 格式", "Gateway · OpenAI 格式", "Gateway · Anthropic 格式"],
+            values=["Gateway · Gemini 格式", "Gateway · OpenAI 格式"],
             state="readonly",
             width=43,
         ).grid(row=0, column=1, sticky="ew", pady=5)
@@ -2006,7 +2003,6 @@ class DesktopOrb:
             state="readonly",
             width=43,
         ).grid(row=4, column=1, sticky="ew", pady=5)
-        add_entry(ai_frame, 5, "Anthropic Version", anthropic_version_var)
 
         add_entry(tts_frame, 0, "ElevenLabs API Key", eleven_key_var)
         add_entry(tts_frame, 1, "Voice ID", voice_id_var)
@@ -2136,9 +2132,7 @@ class DesktopOrb:
         def save_settings() -> None:
             provider = provider_var.get()
             ai_config["provider"] = "gateway"
-            if "Anthropic" in provider:
-                ai_config["gateway_format"] = "anthropic"
-            elif "OpenAI" in provider:
+            if "OpenAI" in provider:
                 ai_config["gateway_format"] = "openai"
             else:
                 ai_config["gateway_format"] = "gemini"
@@ -2147,7 +2141,6 @@ class DesktopOrb:
             ai_config["gateway_api_key"] = gateway_key_var.get().strip()
             ai_config["gateway_model"] = gateway_model_var.get().strip()
             ai_config["gateway_auth_header"] = gateway_auth_var.get().strip() or "auto"
-            ai_config["anthropic_version"] = anthropic_version_var.get().strip() or "2023-06-01"
             if ai_config["gateway_format"] == "gemini":
                 ai_config["base_url"] = ai_config["gateway_base_url"]
                 ai_config["api_key"] = ai_config["gateway_api_key"]

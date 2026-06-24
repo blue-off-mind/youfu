@@ -65,7 +65,7 @@
 | Voice input | Hold a shortcut to record microphone audio, release to send, or cancel the current recording. |
 | Desktop audio | Capture system audio separately so the model can understand videos, meetings, or media playback. |
 | Multimodal input | Gemini-format gateways can receive audio and screenshots directly; screenshots can be attached during recording. |
-| AI gateway | Supports Gemini, OpenAI-compatible, and Anthropic-compatible gateway formats. |
+| AI gateway | Supports Gemini and OpenAI-compatible gateway formats. |
 | Voice output | Uses ElevenLabs to generate spoken replies and plays them on the desktop. |
 | Chat bubble | Comic-style bubble with streaming text, expanded view, scrolling, and user transcript display. |
 | Persona | Uses [`prompts/persona.md`](./prompts/persona.md) to control speaking style. |
@@ -110,11 +110,8 @@ Youfu does not use the same audio protocol for every gateway format. The current
 | --- | --- | --- | --- |
 | Gemini | Sends audio directly through `inline_data`. | Sends images directly through `inline_data`. | Recommended and most complete. |
 | OpenAI-compatible | Sends base64 audio as `input_audio` inside Chat Completions message content. | Sends images as `image_url` data URLs. | Not a separate transcription step, but your gateway and model must support `input_audio`. |
-| Anthropic-compatible | The app does not send audio in this format. | The app does not send screenshots in this format. | Voice turns fail by design; text turns are supported. |
 
-So OpenAI-compatible mode follows the same product idea as Gemini: the model receives the audio directly and is asked to return `user_text` and `assistant_text`. The wire format is different, and compatibility depends on your gateway implementation. Anthropic-compatible mode is not equivalent to Gemini for voice turns in the current version.
-
-To support voice turns through Anthropic-compatible models, the app would need a transcription step first: audio to text, then text to Anthropic. This version does not do that by default.
+So OpenAI-compatible mode follows the same product idea as Gemini: the model receives the audio directly and is asked to return `user_text` and `assistant_text`. The wire format is different, and compatibility depends on your gateway implementation.
 
 <p align="right"><a href="#top">Back to top</a></p>
 
@@ -185,7 +182,6 @@ Most options can be changed from the orb context menu through **Settings**. The 
 | --- | --- | --- |
 | Gemini | Native audio and screenshot input | Recommended for this project. |
 | OpenAI-compatible | Unified gateways that support `input_audio` | Can send audio directly, but the model and gateway must support it. |
-| Anthropic-compatible | Text-oriented model calls | Direct audio is not supported in the current desktop voice flow. |
 
 References:
 

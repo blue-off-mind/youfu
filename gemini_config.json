@@ -10,7 +10,6 @@
   "gateway_api_key_env": "AI_GATEWAY_API_KEY",
   "gateway_model": "gemini-3.1-flash-lite",
   "gateway_auth_header": "auto",
-  "anthropic_version": "2023-06-01",
   "transcription_model": "gemini-2.0-flash-lite",
   "fallback_models": [
     "gemini-3.5-flash",
