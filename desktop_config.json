@@ -21,7 +21,7 @@
   "record_start_delay_ms": 120,
   "skin": "paper-badge-prototype",
   "orb_size": 220,
-  "idle_transparency_enabled": false,
+  "idle_transparency_enabled": true,
   "idle_opacity": 0.6,
-  "idle_edge_dock_enabled": false
+  "idle_edge_dock_enabled": true
 }

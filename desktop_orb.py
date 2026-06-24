@@ -105,9 +105,9 @@ DEFAULT_DESKTOP_CONFIG = {
     "record_start_delay_ms": 120,
     "skin": "default",
     "orb_size": 160,
-    "idle_transparency_enabled": False,
+    "idle_transparency_enabled": True,
     "idle_opacity": 0.6,
-    "idle_edge_dock_enabled": False,
+    "idle_edge_dock_enabled": True,
 }
 DEFAULT_SKIN = {
     "id": "default",
@@ -1020,7 +1020,7 @@ class DesktopOrb:
     def target_window_opacity(self) -> float:
         if self.hovering:
             return 1.0
-        if not self.desktop_config.get("idle_transparency_enabled", False):
+        if not self.desktop_config.get("idle_transparency_enabled", True):
             return 1.0
         if self.state != "idle":
             return 1.0
@@ -1075,7 +1075,7 @@ class DesktopOrb:
         self.root.geometry(f"{self.window_width}x{self.window_height}+{self.window_x}+{self.window_y}")
 
     def idle_edge_dock_enabled(self) -> bool:
-        return bool(self.desktop_config.get("idle_edge_dock_enabled", False))
+        return bool(self.desktop_config.get("idle_edge_dock_enabled", True))
 
     def should_edge_dock(self) -> bool:
         if not self.idle_edge_dock_enabled():
@@ -1842,7 +1842,7 @@ class DesktopOrb:
         original_idle_transparency_enabled = bool(
             self.desktop_config.get(
                 "idle_transparency_enabled",
-                desktop_config.get("idle_transparency_enabled", False),
+                desktop_config.get("idle_transparency_enabled", True),
             )
         )
         original_idle_opacity_percent = opacity_percent(
@@ -1857,7 +1857,7 @@ class DesktopOrb:
         original_idle_edge_dock_enabled = bool(
             self.desktop_config.get(
                 "idle_edge_dock_enabled",
-                desktop_config.get("idle_edge_dock_enabled", False),
+                desktop_config.get("idle_edge_dock_enabled", True),
             )
         )
         idle_edge_dock_var = tk.BooleanVar(
