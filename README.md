@@ -23,6 +23,9 @@
   <a href="https://elevenlabs.io/docs">
     <img alt="ElevenLabs 语音合成" src="https://img.shields.io/badge/ElevenLabs-%E8%AF%AD%E9%9F%B3%E5%90%88%E6%88%90-111111?style=flat-square">
   </a>
+  <a href="https://mimo.mi.com/docs/en-US/quick-start/usage-guide/audio/speech-synthesis-v2.5">
+    <img alt="MiMo V2.5 TTS" src="https://img.shields.io/badge/MiMo%20V2.5-TTS-f46b45?style=flat-square">
+  </a>
   <a href="./LICENSE">
     <img alt="许可证：MIT" src="https://img.shields.io/badge/%E8%AE%B8%E5%8F%AF%E8%AF%81-MIT-green?style=flat-square">
   </a>
@@ -66,7 +69,7 @@
 | 桌面音频 | 可单独录制系统声音，适合让模型理解视频、会议或播放器内容。 |
 | 多模态输入 | Gemini 格式网关可以直接接收音频和截图；录音时也能附加桌面截图。 |
 | 模型网关 | 支持 Gemini 和 OpenAI 兼容格式。 |
-| 语音输出 | 使用 ElevenLabs 生成回复语音，并在桌面播放。 |
+| 语音输出 | 可选 ElevenLabs 或 MiMo V2.5 TTS 生成回复语音，并在桌面播放。 |
 | 对话气泡 | 漫画式对话框，支持流式文本、展开、滚动和用户转写展示。 |
 | 人格约束 | 通过 [`prompts/persona.md`](./prompts/persona.md) 控制说话风格。 |
 | 会话记忆 | 保留近期上下文，长上下文会自动摘要，避免无限增长。 |
@@ -83,7 +86,7 @@
 -> 模型网关理解输入
 -> 人格约束 + 会话上下文
 -> 结构化返回 user_text 和 assistant_text
--> ElevenLabs 生成语音
+-> TTS 服务生成语音
 -> 悬浮球播放语音并显示流式文本
 ```
 
@@ -137,7 +140,7 @@ python -m pip install -r requirements.txt
 python .\desktop_orb.py
 ```
 
-首次启动后，在悬浮球右键菜单里打开设置，填入模型网关和 ElevenLabs 配置。
+首次启动后，在悬浮球右键菜单里打开设置，填入模型网关和 TTS 配置。TTS 可选 ElevenLabs 或 MiMo V2.5。
 
 <a id="快捷键"></a>
 
@@ -163,7 +166,7 @@ python .\desktop_orb.py
 | 文件 | 用途 |
 | --- | --- |
 | [`gemini_config.json`](./gemini_config.json) | 模型、网关地址、网关密钥、格式类型。 |
-| [`tts_config.json`](./tts_config.json) | ElevenLabs 密钥、声音编号、语音模型、输出格式。 |
+| [`tts_config.json`](./tts_config.json) | TTS 提供方、ElevenLabs 配置、MiMo V2.5 配置和输出格式。 |
 | [`.env.example`](./.env.example) | 本地环境变量示例。 |
 | [`desktop_config.json`](./desktop_config.json) | 悬浮球名称、皮肤、大小、透明度、吸附、提示气泡、快捷键。 |
 | [`session_config.json`](./session_config.json) | 会话记忆、摘要阈值、上下文长度。 |
@@ -187,6 +190,7 @@ python .\desktop_orb.py
 
 - [Google Gemini API 文档](https://ai.google.dev/gemini-api/docs)
 - [ElevenLabs API 文档](https://elevenlabs.io/docs)
+- [MiMo V2.5 TTS 文档](https://mimo.mi.com/docs/en-US/quick-start/usage-guide/audio/speech-synthesis-v2.5)
 - [PyInstaller 文档](https://pyinstaller.org/)
 - [sounddevice 文档](https://python-sounddevice.readthedocs.io/)
 - [soundcard 项目](https://github.com/bastibe/python-soundcard)
@@ -282,7 +286,7 @@ python .\inspect_diagnostics.py --last 12
 | [`voice_turn.py`](./voice_turn.py) | 完整的一轮语音对话流程。 |
 | [`gemini_brain.py`](./gemini_brain.py) | 模型网关请求逻辑。 |
 | [`gemini_audio.py`](./gemini_audio.py) | 音频和图片载荷处理。 |
-| [`tts.py`](./tts.py) | ElevenLabs 语音合成。 |
+| [`tts.py`](./tts.py) | ElevenLabs 和 MiMo V2.5 语音合成。 |
 | [`hotkey_listener.py`](./hotkey_listener.py) | 键盘和鼠标快捷键监听。 |
 | [`inspect_diagnostics.py`](./inspect_diagnostics.py) | 诊断日志查看工具。 |
 | [`build_exe.ps1`](./build_exe.ps1) | 打包脚本。 |

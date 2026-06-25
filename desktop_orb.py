@@ -1758,7 +1758,7 @@ class DesktopOrb:
         shortcut_frame = ttk.Frame(notebook, padding=12)
         orb_frame = ttk.Frame(notebook, padding=12)
         notebook.add(ai_frame, text="AI")
-        notebook.add(tts_frame, text="ElevenLabs")
+        notebook.add(tts_frame, text="TTS")
         notebook.add(shortcut_frame, text="快捷键")
         notebook.add(orb_frame, text="悬浮球")
 
@@ -1771,6 +1771,25 @@ class DesktopOrb:
         eleven_key_var = tk.StringVar(value=tts_config.get("api_key", ""))
         voice_id_var = tk.StringVar(value=tts_config.get("voice_id", ""))
         eleven_model_var = tk.StringVar(value=tts_config.get("model_id", "eleven_v3"))
+        tts_provider_options = {
+            "ElevenLabs": "elevenlabs",
+            "MiMo V2.5 TTS": "mimo",
+        }
+        current_tts_provider = str(tts_config.get("provider", "elevenlabs")).strip().lower()
+        current_tts_provider_label = (
+            "MiMo V2.5 TTS"
+            if current_tts_provider in {"mimo", "mimo-v2.5-tts", "xiaomi_mimo", "xiaomimimo"}
+            else "ElevenLabs"
+        )
+        tts_provider_var = tk.StringVar(
+            value=current_tts_provider_label
+        )
+        mimo_key_var = tk.StringVar(value=tts_config.get("mimo_api_key", ""))
+        mimo_base_url_var = tk.StringVar(value=tts_config.get("mimo_base_url", "https://api.xiaomimimo.com/v1"))
+        mimo_model_var = tk.StringVar(value=tts_config.get("mimo_model", "mimo-v2.5-tts"))
+        mimo_voice_var = tk.StringVar(value=tts_config.get("mimo_voice", "kimi_Female1"))
+        mimo_format_var = tk.StringVar(value=tts_config.get("mimo_format", "pcm16"))
+        mimo_sample_rate_var = tk.StringVar(value=str(tts_config.get("mimo_sample_rate", 32000)))
 
         visibility_options = {
             "始终显示": "always",
@@ -2004,9 +2023,71 @@ class DesktopOrb:
             width=43,
         ).grid(row=4, column=1, sticky="ew", pady=5)
 
-        add_entry(tts_frame, 0, "ElevenLabs API Key", eleven_key_var)
-        add_entry(tts_frame, 1, "Voice ID", voice_id_var)
-        add_entry(tts_frame, 2, "ElevenLabs Model", eleven_model_var)
+        ttk.Label(tts_frame, text="TTS 提供方").grid(row=0, column=0, sticky="w", pady=5)
+        ttk.Combobox(
+            tts_frame,
+            textvariable=tts_provider_var,
+            values=list(tts_provider_options.keys()),
+            state="readonly",
+            width=43,
+        ).grid(row=0, column=1, sticky="ew", pady=5)
+        ttk.Label(tts_frame, text="ElevenLabs", foreground="#6b6558").grid(
+            row=1, column=0, columnspan=2, sticky="w", pady=(12, 4)
+        )
+        add_entry(tts_frame, 2, "ElevenLabs API Key", eleven_key_var)
+        add_entry(tts_frame, 3, "Voice ID", voice_id_var)
+        add_entry(tts_frame, 4, "ElevenLabs Model", eleven_model_var)
+        ttk.Label(tts_frame, text="MiMo V2.5", foreground="#6b6558").grid(
+            row=5, column=0, columnspan=2, sticky="w", pady=(16, 4)
+        )
+        add_entry(tts_frame, 6, "MiMo API Key", mimo_key_var)
+        add_entry(tts_frame, 7, "MiMo Base URL", mimo_base_url_var)
+        add_entry(tts_frame, 8, "MiMo Model", mimo_model_var)
+        ttk.Label(tts_frame, text="MiMo Voice").grid(row=9, column=0, sticky="w", pady=5)
+        ttk.Combobox(
+            tts_frame,
+            textvariable=mimo_voice_var,
+            values=[
+                "kimi_Female1",
+                "kimi_Female2",
+                "kimi_Female3",
+                "kimi_Female4",
+                "kimi_Male1",
+                "kimi_Male2",
+                "kimi_Male3",
+                "kimi_Male4",
+                "kimi_Child1",
+                "kimi_Child2",
+                "kimi_Cute1",
+                "kimi_Cute2",
+                "kimi_Cute3",
+            ],
+            width=43,
+        ).grid(row=9, column=1, sticky="ew", pady=5)
+        ttk.Label(tts_frame, text="MiMo Format").grid(row=10, column=0, sticky="w", pady=5)
+        ttk.Combobox(
+            tts_frame,
+            textvariable=mimo_format_var,
+            values=["pcm16", "wav", "mp3"],
+            state="readonly",
+            width=43,
+        ).grid(row=10, column=1, sticky="ew", pady=5)
+        ttk.Label(tts_frame, text="MiMo Sample Rate").grid(row=11, column=0, sticky="w", pady=5)
+        ttk.Combobox(
+            tts_frame,
+            textvariable=mimo_sample_rate_var,
+            values=["8000", "16000", "24000", "32000", "48000"],
+            state="readonly",
+            width=43,
+        ).grid(row=11, column=1, sticky="ew", pady=5)
+        ttk.Label(
+            tts_frame,
+            text="桌面播放会优先使用 WAV/PCM；MiMo 选 mp3 更适合命令行导出。",
+            foreground="#6b6558",
+            wraplength=500,
+            justify="left",
+        ).grid(row=12, column=0, columnspan=2, sticky="w", pady=(10, 0))
+        tts_frame.columnconfigure(1, weight=1)
 
         ttk.Label(
             shortcut_frame,
@@ -2149,6 +2230,17 @@ class DesktopOrb:
             tts_config["api_key"] = eleven_key_var.get().strip()
             tts_config["voice_id"] = voice_id_var.get().strip()
             tts_config["model_id"] = eleven_model_var.get().strip() or "eleven_v3"
+            tts_config["provider"] = tts_provider_options.get(tts_provider_var.get(), "elevenlabs")
+            tts_config["mimo_api_key"] = mimo_key_var.get().strip()
+            tts_config["mimo_base_url"] = mimo_base_url_var.get().strip() or "https://api.xiaomimimo.com/v1"
+            tts_config["mimo_model"] = mimo_model_var.get().strip() or "mimo-v2.5-tts"
+            tts_config["mimo_voice"] = mimo_voice_var.get().strip() or "kimi_Female1"
+            tts_config["mimo_format"] = mimo_format_var.get().strip() or "pcm16"
+            try:
+                tts_config["mimo_sample_rate"] = int(float(mimo_sample_rate_var.get().strip()))
+            except ValueError:
+                messagebox.showerror("保存失败", "MiMo Sample Rate 必须是数字。", parent=win)
+                return
 
             shortcuts_config = {}
             for action, _title, _description in SHORTCUT_ACTIONS:

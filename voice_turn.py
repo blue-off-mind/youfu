@@ -17,7 +17,12 @@ from gemini_brain import (
     summarize_session,
     text_reply,
 )
-from tts import load_config as load_tts_config, synthesize
+from tts import (
+    apply_desktop_output_format,
+    audio_output_info,
+    load_config as load_tts_config,
+    synthesize,
+)
 
 
 if hasattr(sys.stdout, "reconfigure"):
@@ -150,23 +155,11 @@ def default_audio_path(session_id: str, extension: str = "mp3") -> Path:
     return DEFAULT_OUTPUT_DIR / f"turn-{session_id}-{timestamp}.{extension}"
 
 
-def pcm_sample_rate(output_format: str) -> int | None:
-    if not output_format.startswith("pcm_"):
-        return None
-    try:
-        return int(output_format.split("_", 1)[1])
-    except (IndexError, ValueError):
-        raise SystemExit(f"Unsupported PCM output format: {output_format}")
-
-
 def write_tts_audio(reply: str, tts_config_path: Path, out_arg: str | None, session_id: str, output_format: str | None) -> Path:
     tts_config = load_tts_config(tts_config_path)
-    if output_format:
-        tts_config["output_format"] = output_format
+    apply_desktop_output_format(tts_config, output_format)
 
-    format_value = tts_config.get("output_format", "mp3_44100_128")
-    sample_rate = pcm_sample_rate(format_value)
-    extension = "wav" if sample_rate else "mp3"
+    extension, sample_rate = audio_output_info(tts_config)
     audio_path = Path(out_arg) if out_arg else default_audio_path(session_id, extension)
     if not audio_path.is_absolute():
         audio_path = ROOT / audio_path

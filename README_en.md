@@ -23,6 +23,9 @@
   <a href="https://elevenlabs.io/docs">
     <img alt="ElevenLabs TTS" src="https://img.shields.io/badge/ElevenLabs-TTS-111111?style=flat-square">
   </a>
+  <a href="https://mimo.mi.com/docs/en-US/quick-start/usage-guide/audio/speech-synthesis-v2.5">
+    <img alt="MiMo V2.5 TTS" src="https://img.shields.io/badge/MiMo%20V2.5-TTS-f46b45?style=flat-square">
+  </a>
   <a href="./LICENSE">
     <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-green?style=flat-square">
   </a>
@@ -66,7 +69,7 @@
 | Desktop audio | Capture system audio separately so the model can understand videos, meetings, or media playback. |
 | Multimodal input | Gemini-format gateways can receive audio and screenshots directly; screenshots can be attached during recording. |
 | AI gateway | Supports Gemini and OpenAI-compatible gateway formats. |
-| Voice output | Uses ElevenLabs to generate spoken replies and plays them on the desktop. |
+| Voice output | Uses either ElevenLabs or MiMo V2.5 TTS to generate spoken replies and plays them on the desktop. |
 | Chat bubble | Comic-style bubble with streaming text, expanded view, scrolling, and user transcript display. |
 | Persona | Uses [`prompts/persona.md`](./prompts/persona.md) to control speaking style. |
 | Session memory | Keeps recent context and summarizes long conversations instead of growing forever. |
@@ -83,7 +86,7 @@ Microphone / desktop audio / screenshot
 -> AI gateway understands the input
 -> persona + session context
 -> structured user_text and assistant_text
--> ElevenLabs generates speech
+-> TTS provider generates speech
 -> floating orb plays audio and streams text
 ```
 
@@ -137,7 +140,7 @@ Or run the Python entry directly:
 python .\desktop_orb.py
 ```
 
-On first launch, open settings from the orb context menu and fill in your AI gateway and ElevenLabs configuration.
+On first launch, open settings from the orb context menu and fill in your AI gateway and TTS configuration. TTS can use either ElevenLabs or MiMo V2.5.
 
 <a id="shortcuts"></a>
 
@@ -163,7 +166,7 @@ Most options can be changed from the orb context menu through **Settings**. The 
 | File | Purpose |
 | --- | --- |
 | [`gemini_config.json`](./gemini_config.json) | AI model, gateway base URL, gateway key, and provider format. |
-| [`tts_config.json`](./tts_config.json) | ElevenLabs key, voice ID, TTS model, and output format. |
+| [`tts_config.json`](./tts_config.json) | TTS provider, ElevenLabs settings, MiMo V2.5 settings, and output format. |
 | [`.env.example`](./.env.example) | Example local environment variables. |
 | [`desktop_config.json`](./desktop_config.json) | Orb name, skin, size, opacity, docking, hint bubble, and shortcuts. |
 | [`session_config.json`](./session_config.json) | Session memory, summary threshold, and context length. |
@@ -187,6 +190,7 @@ References:
 
 - [Google Gemini API docs](https://ai.google.dev/gemini-api/docs)
 - [ElevenLabs API docs](https://elevenlabs.io/docs)
+- [MiMo V2.5 TTS docs](https://mimo.mi.com/docs/en-US/quick-start/usage-guide/audio/speech-synthesis-v2.5)
 - [PyInstaller docs](https://pyinstaller.org/)
 - [sounddevice docs](https://python-sounddevice.readthedocs.io/)
 - [soundcard project](https://github.com/bastibe/python-soundcard)
@@ -282,7 +286,7 @@ Use this to check:
 | [`voice_turn.py`](./voice_turn.py) | One complete voice turn. |
 | [`gemini_brain.py`](./gemini_brain.py) | AI gateway request logic. |
 | [`gemini_audio.py`](./gemini_audio.py) | Audio and image payload handling. |
-| [`tts.py`](./tts.py) | ElevenLabs speech generation. |
+| [`tts.py`](./tts.py) | ElevenLabs and MiMo V2.5 speech generation. |
 | [`hotkey_listener.py`](./hotkey_listener.py) | Keyboard and mouse shortcut listener. |
 | [`inspect_diagnostics.py`](./inspect_diagnostics.py) | Diagnostic log viewer. |
 | [`build_exe.ps1`](./build_exe.ps1) | Packaging script. |

@@ -1,4 +1,5 @@
 {
+  "provider": "elevenlabs",
   "api_key": "",
   "api_key_env": "ELEVENLABS_API_KEY",
   "voice_id": "",
@@ -7,5 +8,12 @@
   "voice_settings": {
     "stability": 0.5,
     "similarity_boost": 0.75
-  }
+  },
+  "mimo_api_key": "",
+  "mimo_api_key_env": "MIMO_API_KEY",
+  "mimo_base_url": "https://api.xiaomimimo.com/v1",
+  "mimo_model": "mimo-v2.5-tts",
+  "mimo_voice": "kimi_Female1",
+  "mimo_format": "pcm16",
+  "mimo_sample_rate": 32000
 }

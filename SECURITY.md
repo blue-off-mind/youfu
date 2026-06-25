@@ -10,6 +10,7 @@ Use local environment variables or the settings window instead:
 - `AI_GATEWAY_API_KEY`
 - `DEEPSEEK_API_KEY`
 - `ELEVENLABS_API_KEY`
+- `MIMO_API_KEY`
 
 The repository intentionally ignores runtime data such as `logs/`, `outputs/`, `sessions/`, `tmp/`, `dist/`, `build/`, and `release/`.
 
